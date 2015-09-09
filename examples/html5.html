@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> gamepads html5 test </title>
+    <style>
+        #playground {
+            position: relative;
+            left: 100px; top: 100px;
+            width: 264px;
+            height: 264px;
+            border: 2px solid mediumpurple;
+        }
+    </style>
+    <script src = "../src/gamepadListener.js"> </script>
+    <script src = "../src/gamepadEvents.js"></script>
+    <script src = "../src/gamepadController.js"></script>
+    <script src = "../src/gamepadControllerFactory.js"></script>
+    <script src = "../src/axisT8311Events.js"></script>
+    <script>
+/**
+ * Sprite is a simple wrapper around an IMAGE tag, allowing the creation
+ * and movement of a graphic element.
+ */
+function Sprite(src, x, y) {
+        this._image = document.createElement('img');
+        this._image.src = src;
+        this._image.style.position = 'absolute';
+
+        this.x = x;
+        this.y = y;
+}
+
+Sprite.prototype.addToElement = function(element) {
+        element.appendChild(this._image);
+};
+
+Sprite.prototype.moveTo = function(x, y){
+    this.x = x;
+    this.y = y;
+    this._image.style.left = x + 'px';
+    this._image.style.top = y + 'px';
+};
+
+Sprite.prototype.adjustX = function(x){
+    this.x = x;
+    this._image.style.left = x + 'px';
+};
+
+Sprite.prototype.adjustY = function(y){
+    this.y = y;
+    this._image.style.top = y + 'px';
+};
+
+function init() {
+    var sprite = new Sprite('killer_sheep.gif');
+    var playground = document.getElementById('playground');
+    sprite.addToElement(playground);
+
+    var controller = new gamepads.GamepadControllerFactory(gamepads.GamepadController, gamepads.AxisT8311Events);
+    controller.on('left',     function(axisValue){ sprite.adjustX(100 + 100 * axisValue); })
+              .on('right',    function(axisValue){ sprite.adjustX(100 + 100 * axisValue); })
+              .on('up',       function(axisValue){ sprite.adjustY(100 + 100 * axisValue); })
+              .on('down',     function(axisValue){ sprite.adjustY(100 + 100 * axisValue); })
+              .on('zoom-in',  function(axisValue){ playground.style.top = playground.style.left = (100 + 100 * axisValue) + 'px';})
+              .on('zoom-out', function(axisValue){ playground.style.top = playground.style.left = (100 + 100 * axisValue) + 'px';})
+              .on('L', function(btnIndex, gamepadId){ controller.toggleUpdateMode(gamepadId); });
+
+    controller.start(true);
+}
+</script>
+
+</head>
+<body onload="init();">
+    <div id="playground"></div>
+</body>
+</html>
