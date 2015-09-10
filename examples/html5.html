@@ -57,7 +57,7 @@ function init() {
     var playground = document.getElementById('playground');
     sprite.addToElement(playground);
 
-    var controller = new gamepads.GamepadControllerFactory(gamepads.GamepadController, gamepads.AxisT8311Events);
+    var controller = new gamepads.GamepadControllerFactory(gamepads.AxisT8311Events);
     controller.on('left',     function(axisValue){ sprite.adjustX(100 + 100 * axisValue); })
               .on('right',    function(axisValue){ sprite.adjustX(100 + 100 * axisValue); })
               .on('up',       function(axisValue){ sprite.adjustY(100 + 100 * axisValue); })
