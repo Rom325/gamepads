@@ -71,7 +71,7 @@
             return this;
         }
 
-        this._onEventCallbacks = this._onEventCallbacks[evtName].filter(function (handler) {
+        this._onEventCallbacks[evtName] = this._onEventCallbacks[evtName].filter(function (handler) {
             return handler.callback !== callback
         });
 
