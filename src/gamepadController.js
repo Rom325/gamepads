@@ -103,6 +103,20 @@
     };
 
     /**
+     * Triggers, when gamepad is connected.
+     * @param {Gamepad} gamepad
+     */
+    GamepadController.prototype.onGamepadConnected = function (gamepad) {
+    };
+
+    /**
+     * Triggers when gamepad is disconnected
+     * @param {Gamepad} gamepad
+     */
+    GamepadController.prototype.onGamepadDisconnected = function (gamepad) {
+    };
+
+    /**
      * Subscribes on gamepadListener's events.
      * @param {Boolean} isContinuousUpdate
      * @private
@@ -303,6 +317,7 @@
      */
     GamepadController.prototype._addGamepad = function (gamepad, updateMode) {
         this._updateLastState(gamepad, updateMode);
+        this.onGamepadConnected(gamepad);
     };
 
     /**
@@ -312,6 +327,7 @@
      */
     GamepadController.prototype._removeGamepad = function (gamepad) {
         delete this._gamepadLastStates[gamepad.id]; // One may argue that delete operation is slow.
+        this.onGamepadDisconnected(gamepad);
     };
 
     return GamepadController;

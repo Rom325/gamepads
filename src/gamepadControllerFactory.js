@@ -59,6 +59,14 @@
 
             self._gamepadEventsMapping.trigger(evtName, buttonIndex, gamepadId);
         };
+
+        this._gamepadController.onGamepadConnected = function (gamepad){
+            self._gamepadEventsMapping.trigger('gamepadconnected', gamepad);
+        };
+
+        this._gamepadController.onGamepadDisconnected = function (gamepad) {
+            self._gamepadEventsMapping.trigger('gamepaddisconnected', gamepad);
+        }
     };
 
     /**

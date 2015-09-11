@@ -29,6 +29,17 @@
     };
 
     /**
+     * Utility class for storing function together with provided context;
+     * @param {function} callback
+     * @param {object} context
+     * @constructor
+     */
+    var CallbackAndContext = function(callback, context) {
+        this.callback = callback;
+        this.context = context;
+    };
+
+    /**
      * Allows to sign on specific event.
      * @param {string} evtName
      * @param {function} callback
@@ -40,7 +51,7 @@
             this._onEventCallbacks[evtName] = [];
         }
 
-        this._onEventCallbacks[evtName].push({callback: callback, context: context});
+        this._onEventCallbacks[evtName].push(new CallbackAndContext(callback, context));
 
         return this;
     };
@@ -53,7 +64,7 @@
      */
     GamepadEvents.prototype.off = function (evtName, callback) {
         if (arguments.length === 0) { // following modern convention, off with no params deletes all handlers.
-            this.onEventCallbacks = {};
+            this._onEventCallbacks = {};
         }
 
         if (!(evtName in this._onEventCallbacks)) {
@@ -83,6 +94,8 @@
             var context = callbackAndContext.context;
             callback.apply(context, args);
         });
+
+        return this;
     };
 
     GamepadEvents.prototype.getKey = function (buttonId) {
